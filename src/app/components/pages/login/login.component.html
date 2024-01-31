@@ -1,0 +1,45 @@
+<main>
+    <div class="registerModal">
+        <div class="registerModalContainer">
+            <div class="titleContainer">
+                <h1 class="font-heading">Login</h1>
+                <div></div>
+            </div>
+
+            <div class="inputsContainer">
+                <div class="inputContainer">
+                    <label class="font-heading" for="email">E-mail</label>
+                    <input
+                        placeholder="Digite o e-mail..."
+                        name="email"
+                        type="text"
+                        [(ngModel)]="client.email"
+                    />
+                </div>
+                <div class="inputContainer">
+                    <label class="font-heading" for="senha">Senha</label>
+                    <input
+                        placeholder="Digite a senha..."
+                        name="senha"
+                        type="password"
+                        [(ngModel)]="client.password"
+                    />
+                </div>
+
+                <span class="signUpContainer"
+                    >Ainda não possui cadastro?
+                    <a routerLink="/signup">Cadastre-se</a></span
+                >
+                <div class="submitContainer">
+                    <button (click)="onClickSubmit()">Entrar</button>
+                </div>
+            </div>
+        </div>
+        <div class="imgContainer">
+            <img
+                src="https://acervoaflalogasperini.arq.br/wp-content/uploads/2022/07/carrossel-imagem-destaque-ibm-1-1.jpg"
+                alt=""
+            />
+        </div>
+    </div>
+</main>

@@ -1,0 +1,63 @@
+<main>
+    <div class="registerModal">
+        <div class="registerModalContainer">
+            <div class="titleContainer">
+                <h1 class="font-heading">Cadastro</h1>
+                <div></div>
+            </div>
+
+            <div class="inputsContainer">
+                <div class="inputContainer">
+                    <label class="font-heading" for="email">Nome</label>
+                    <input
+                        placeholder="Digite o nome de usuário..."
+                        name="name"
+                        type="text"
+                        [(ngModel)]="client.name"
+                    />
+                </div>
+                <div class="inputContainer">
+                    <label class="font-heading" for="email">E-mail</label>
+                    <input
+                        placeholder="Digite o e-mail..."
+                        name="email"
+                        type="text"
+                        [(ngModel)]="client.email"
+                    />
+                </div>
+                <div class="inputContainer">
+                    <label class="font-heading" for="password">Senha</label>
+                    <input
+                        placeholder="Digite a senha..."
+                        name="password"
+                        type="password"
+                        [(ngModel)]="client.password"
+                    />
+                </div>
+
+                <span class="signInContainer"
+                    >Já possui cadastro? <a routerLink="/login">Login</a></span
+                >
+
+                <div class="submitContainer">
+                    <button
+                        [disabled]="
+                            client.email == '' ||
+                            client.name == '' ||
+                            client.password == ''
+                        "
+                        (click)="onClickSubmit()"
+                    >
+                        Entrar
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="imgContainer">
+            <img
+                src="https://acervoaflalogasperini.arq.br/wp-content/uploads/2022/07/carrossel-imagem-destaque-ibm-1-1.jpg"
+                alt=""
+            />
+        </div>
+    </div>
+</main>

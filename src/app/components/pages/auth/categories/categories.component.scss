@@ -1,0 +1,127 @@
+main {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 3rem;
+    background-color: #0a181d;
+    color: rgb(185, 235, 252);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    height: 100%;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.entitiesContainer {
+    height: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid #295161;
+    background-color: #132a33;
+}
+
+.entitiesContainer span {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.entitiesContainer button,
+.transactionsHeader button {
+    background-color: #132a33;
+    border: 1px solid rgb(17, 79, 100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    max-width: 200px;
+}
+
+.lastTransactionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.transactionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.transactionsHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.transactionsHeaderButtonsContainer {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.transactionsTableContainer {
+    width: fit-content;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid #295161;
+    background-color: #132a33;
+}
+
+.tableHeadersContainer th {
+    padding-bottom: 1rem;
+}
+
+.tableHeadersContainer th,
+.tableRow td {
+    padding-right: 1rem;
+    padding: 0.25rem 1rem;
+    text-align: left;
+}
+
+.tableRow th {
+    padding-right: 1rem;
+    text-align: center;
+}
+
+.updateButton {
+    background-color: #cab601;
+    display: flex;
+    font-weight: bold;
+    font-size: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    max-width: 200px;
+}
+
+.deleteButton {
+    background-color: #ca3001;
+    display: flex;
+    font-weight: bold;
+    font-size: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    max-width: 200px;
+}

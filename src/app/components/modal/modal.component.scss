@@ -1,0 +1,60 @@
+.modalBackdrop {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    z-index: 3;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 250px;
+    height: fit-content;
+    background-color: white;
+    border-radius: 1.5rem;
+}
+
+.modalContainer {
+    width: 100%;
+    position: relative;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.closeContainer {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: -2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    font-size: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 999px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 200ms ease-out;
+}
+
+.closeContainer:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}

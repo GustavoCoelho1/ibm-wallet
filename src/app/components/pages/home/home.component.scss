@@ -1,0 +1,52 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #132a33;
+    color: white;
+    gap: 2rem;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.bigImageContainer {
+    width: 50%;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bigImageContainer img {
+    position: absolute;
+    height: 100%;
+}
+
+.redirectButton {
+    background-color: rgb(0, 191, 255);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.5rem 0rem;
+    cursor: pointer;
+}
+
+.buttonContainer {
+    width: 50%;
+    min-width: 300px;
+    max-width: 500px;
+}

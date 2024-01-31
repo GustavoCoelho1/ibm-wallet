@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Plus+Jakarta+Sans:wght@300;400;700&display=swap");
+
+// regular style toast
+@import "ngx-toastr/toastr";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+button {
+    border: none;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+}
+
+a {
+    color: rgb(0, 191, 255);
+    cursor: pointer;
+    transition: 200ms ease-out;
+}
+
+a:hover {
+    color: rgb(131, 224, 255);
+}
+
+.font-heading {
+    font-family: "Plus Jakarta Sans", sans-serif;
+}

@@ -1,0 +1,44 @@
+<main>
+    <div class="container">
+        <div class="transactionsContainer">
+            <div class="transactionsHeader">
+                <div><h1>Categorias</h1></div>
+                <div class="transactionsHeaderButtonsContainer">
+                    <button>Nova categoria</button>
+                    <button>Alterar categoria</button>
+                    <button>Deletar categoria</button>
+                </div>
+            </div>
+            <div class="lastTransactionsContainer">
+                <span>Últimas categorias inseridas</span>
+                <div class="transactionsTableContainer">
+                    <span>Ainda não há registros de categoria!</span>
+                    <table class="transactionsTable">
+                        <tr class="tableHeadersContainer">
+                            <th>#</th>
+                            <th>Nome</th>
+                        </tr>
+                        <tr
+                            class="tableRow"
+                            *ngFor="let category of categories"
+                        >
+                            <th>{{ category.id }}</th>
+                            <td>{{ category.name }}</td>
+                            <td>
+                                <button class="updateButton">Alterar</button>
+                            </td>
+                            <td>
+                                <button class="deleteButton">Deletar</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="entitiesContainer">
+            <span>Outras entidades</span>
+            <button routerLink="/auth/dashboard">Transações</button>
+            <button routerLink="/auth/recipients">Destinatários</button>
+        </div>
+    </div>
+</main>

@@ -15,7 +15,6 @@ export class AuthService {
         private router: Router,
     ) {
         const token = localStorage.getItem('token');
-
         if (token) {
             this.client = this.getClientFromToken(token);
         }
@@ -38,6 +37,7 @@ export class AuthService {
             map((res: any) => {
                 console.log(res);
                 localStorage.setItem('token', res);
+                this.client = this.getClientFromToken(res);
                 return true;
             }),
             catchError((err) => {

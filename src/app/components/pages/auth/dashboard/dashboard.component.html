@@ -3,16 +3,12 @@
         <div class="transactionsContainer">
             <div class="transactionsHeader">
                 <h1 class="font-heading">Transações</h1>
-                <div class="transactionsHeaderButtonsContainer">
-                    <button>Nova transação</button>
-                    <button>Alterar transação</button>
-                    <button>Deletar transação</button>
-                </div>
             </div>
             <div class="lastTransactionsContainer">
                 <span>Últimas transações</span>
                 <div class="transactionsTableContainer">
-                    <span *ngIf="transactions.length == 0"
+                    <span *ngIf="isLoading == true">Carregando...</span>
+                    <span *ngIf="transactions.length == 0 && isLoading == false"
                         >Ainda não há registros!</span
                     >
                     <table
@@ -53,6 +49,13 @@
                             </td>
                         </tr>
                     </table>
+
+                    <div
+                        class="newItemButtonContainer"
+                        *ngIf="isLoading == false"
+                    >
+                        <button (click)="onClickNew()">+ Nova transação</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,8 +72,11 @@
     modalId="actionModal"
     *ngIf="currentModal != null"
 >
-    <div class="modalContainer" *ngIf="currentModal.action == 'update'">
-        <h2>Atualizar</h2>
+    <!--Criar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'save'">
+        <div class="modalTitle">
+            <h2>Nova transação</h2>
+        </div>
         <div class="inputsContainer">
             <div class="inputContainer">
                 <label for="">Valor da transação</label>
@@ -82,7 +88,7 @@
                     <option
                         *ngFor="let category of categories"
                         [selected]="
-                            category.name == currentModal.data.category_name
+                            category.id == currentModal.data.category_id
                         "
                         [value]="category.id"
                     >
@@ -96,7 +102,55 @@
                     <option
                         *ngFor="let recipient of recipients"
                         [selected]="
-                            recipient.name == currentModal.data.category_name
+                            recipient.id == currentModal.data.recipient_id
+                        "
+                        [value]="recipient.id"
+                    >
+                        {{ recipient.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="inputContainer">
+                <label for="">Data</label>
+                <input [(ngModel)]="currentModal.data.created_at" type="date" />
+            </div>
+        </div>
+
+        <button (click)="onClickModalSave()" class="modalSubmit">Salvar</button>
+    </div>
+
+    <!--Alterar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'update'">
+        <div class="modalTitle">
+            <h2>Atualizar</h2>
+            <span>#{{ currentModal.data.id }}</span>
+        </div>
+        <div class="inputsContainer">
+            <div class="inputContainer">
+                <label for="">Valor da transação</label>
+                <input [(ngModel)]="currentModal.data.value" type="text" />
+            </div>
+            <div class="inputContainer">
+                <label for="">Categoria</label>
+                <select [(ngModel)]="currentModal.data.category_id">
+                    <option
+                        *ngFor="let category of categories"
+                        [selected]="
+                            category.id == currentModal.data.category_id
+                        "
+                        [value]="category.id"
+                    >
+                        {{ category.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="inputContainer">
+                <label for="">Destinatário</label>
+                <select [(ngModel)]="currentModal.data.recipient_id">
+                    <option
+                        *ngFor="let recipient of recipients"
+                        [selected]="
+                            recipient.id == currentModal.data.recipient_id
                         "
                         [value]="recipient.id"
                     >
@@ -114,6 +168,8 @@
             Atualizar
         </button>
     </div>
+
+    <!--Deletar-->
     <div class="modalContainer" *ngIf="currentModal.action == 'delete'">
         <h2>Deletar</h2>
         <div class="confirmationContainer">
@@ -128,12 +184,12 @@
                     {{ currentModal.data.value?.toFixed(2) }}</span
                 >
                 <span
-                    ><b>Categoria: </b>
-                    {{ currentModal.data.category_name }}</span
+                    ><b>Categoria: </b
+                    >{{ currentModal.data.category.name }}</span
                 >
                 <span
-                    ><b>Destinatário: </b>
-                    {{ currentModal.data.recipient_name }}</span
+                    ><b>Destinatário: </b
+                    >{{ currentModal.data.recipient.name }}</span
                 >
             </div>
         </div>

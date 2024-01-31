@@ -3,6 +3,7 @@ import { TransactionsService } from '../../../../services/transactions.service';
 import { Category } from '../../../../models/Category';
 import { Recipient } from '../../../../models/Recipient';
 import { MoneyTransaction } from '../../../../models/MoneyTransaction';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-dashboard',
@@ -10,41 +11,23 @@ import { MoneyTransaction } from '../../../../models/MoneyTransaction';
     styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-    constructor(private transactionService: TransactionsService) {}
+    constructor(
+        private transactionService: TransactionsService,
+        private toastrService: ToastrService,
+    ) {}
 
     isLoading = true;
     currentModal?: {
         action: 'save' | 'update' | 'delete';
-        data: MoneyTransaction & {
-            category_name: string;
-            recipient_name: string;
-        };
+        data: any;
     } | null;
 
-    transactions = [
-        {
-            id: 1,
-            value: -20.0,
-            category: { name: 'Alimentação' },
-            recipient: { name: 'iFood' },
-        },
-        {
-            id: 2,
-            value: -20.0,
-            category: { name: 'Alimentação' },
-            recipient: { name: 'iFood' },
-        },
-        {
-            id: 3,
-            value: -20.0,
-            category: { name: 'Alimentação' },
-            recipient: { name: 'iFood' },
-        },
-    ] as MoneyTransaction[];
+    transactions: MoneyTransaction[] = [];
     categories: Category[] = [];
     recipients: Recipient[] = [];
 
     ngOnInit() {
+        this.isLoading = true;
         this.getRecipientsName();
         this.getCategoriesName();
         this.getTransactions();
@@ -73,6 +56,7 @@ export class DashboardComponent implements OnInit {
     }
 
     getTransactions() {
+        this.isLoading = true;
         this.transactionService.getAllClientTransacitons()?.subscribe((res) => {
             const responseMapped = res.map((transaction: MoneyTransaction) => {
                 const category = this.categories.find(
@@ -86,41 +70,193 @@ export class DashboardComponent implements OnInit {
                 return { ...transaction, category, recipient };
             });
 
+            this.isLoading = false;
             this.transactions = responseMapped;
         });
     }
 
     onClickUpdate(item: MoneyTransaction) {
-        if (item.category?.name && item.recipient?.name) {
-            this.currentModal = {
-                action: 'update',
-                data: {
-                    ...item,
-                    category_name: item.category?.name,
-                    recipient_name: item.recipient?.name,
-                },
-            };
+        if (!item.created_at) {
+            return;
         }
+        this.currentModal = {
+            action: 'update',
+            data: {
+                id: item.id,
+                value: item.value,
+                category_id: Number(item.category_id),
+                recipient_id: Number(item.recipient_id),
+                created_at: item.created_at,
+            },
+        };
     }
 
     onClickDelete(item: MoneyTransaction) {
-        if (item.category?.name && item.recipient?.name) {
-            this.currentModal = {
-                action: 'delete',
-                data: {
-                    ...item,
-                    category_name: item.category?.name,
-                    recipient_name: item.recipient?.name,
-                },
+        if (!item.created_at) {
+            return;
+        }
+
+        this.currentModal = {
+            action: 'delete',
+            data: item,
+        };
+    }
+
+    onClickNew() {
+        this.currentModal = {
+            action: 'save',
+            data: {},
+        };
+    }
+
+    async onClickModalSave() {
+        const inputsData = this.currentModal?.data;
+
+        if (
+            !inputsData ||
+            inputsData.recipient_id == null ||
+            inputsData.category_id == null ||
+            inputsData.value == null ||
+            inputsData.value == 0 ||
+            inputsData.created_at == null ||
+            inputsData.created_at == ''
+        ) {
+            this.toastrService.error(
+                'Preencha todos os campos para salvar o registro!',
+            );
+        } else {
+            let inputsDataDateArr: string[] = [];
+
+            try {
+                inputsDataDateArr = inputsData.created_at.split('-');
+            } catch {
+                this.toastrService.error('Preencha o campo de data!');
+                return;
+            }
+
+            const newTransactionDate = new Date(
+                Number(inputsDataDateArr[0]),
+                Number(inputsDataDateArr[1]),
+                Number(inputsDataDateArr[2]),
+            );
+
+            const newTransactionTimestamp = newTransactionDate.getTime();
+
+            const newTransaction = {
+                ...inputsData,
+                created_at: newTransactionTimestamp,
             };
+
+            await this.transactionService
+                .saveTransaction(newTransaction)
+                .catch((err) => {
+                    console.log(err);
+                    return false;
+                })
+                .then((res) => {
+                    if (res != false) {
+                        this.toastrService.success(
+                            'O registro foi deletado com sucesso!',
+                        );
+                        this.onChangesRefresh();
+                    } else {
+                        this.toastrService.error(
+                            'Houve um erro ao deletar o registro!',
+                        );
+                        this.currentModal = null;
+                    }
+                });
         }
     }
 
-    onClickModalUpdate() {
-        console.log(this.currentModal);
+    async onClickModalUpdate() {
+        const inputsData = this.currentModal?.data;
+
+        if (
+            !inputsData ||
+            inputsData.id == null ||
+            inputsData.recipient_id == null ||
+            inputsData.category_id == null ||
+            inputsData.value == null ||
+            inputsData.value == 0 ||
+            inputsData.created_at == null ||
+            inputsData.created_at == ''
+        ) {
+            this.toastrService.error(
+                'Preencha todos os campos para atualizar o registro!',
+            );
+        } else {
+            let inputsDataDateArr: string[] = [];
+
+            try {
+                inputsDataDateArr = inputsData.created_at.split('-');
+            } catch {
+                this.toastrService.error('Preencha o campo de data!');
+                return;
+            }
+
+            const newTransactionDate = new Date(
+                Number(inputsDataDateArr[0]),
+                Number(inputsDataDateArr[1]),
+                Number(inputsDataDateArr[2]),
+            );
+
+            const newTransactionTimestamp = newTransactionDate.getTime();
+
+            const newTransaction = {
+                ...inputsData,
+                created_at: newTransactionTimestamp,
+            };
+
+            await this.transactionService
+                .saveTransaction(newTransaction)
+                .catch((err) => {
+                    console.log(err);
+                    return false;
+                })
+                .then((res) => {
+                    if (res != false) {
+                        this.toastrService.success(
+                            'O registro foi deletado com sucesso!',
+                        );
+                        this.onChangesRefresh();
+                    } else {
+                        this.toastrService.error(
+                            'Houve um erro ao deletar o registro!',
+                        );
+                        this.currentModal = null;
+                    }
+                });
+        }
     }
 
-    onClickModalDelete() {
-        console.log(this.currentModal);
+    async onClickModalDelete() {
+        const deleteId: number = this.currentModal?.data.id;
+
+        await this.transactionService
+            .deleteTransaction(deleteId)
+            .catch((err) => {
+                console.log(err);
+                return false;
+            })
+            .then((res) => {
+                if (res != false) {
+                    this.toastrService.success(
+                        'O registro foi atualizado com sucesso!',
+                    );
+                    this.onChangesRefresh();
+                } else {
+                    this.toastrService.error(
+                        'Houve um erro ao atualizar o registro!',
+                    );
+                    this.currentModal = null;
+                }
+            });
+    }
+
+    onChangesRefresh() {
+        this.currentModal = null;
+        this.transactions = [];
+        this.getTransactions();
     }
 }

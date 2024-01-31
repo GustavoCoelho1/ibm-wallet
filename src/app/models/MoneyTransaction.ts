@@ -6,10 +6,10 @@ export class MoneyTransaction {
     value?: number;
     category_id?: number;
     recipient_id?: number;
+    created_at?: number;
+
     category?: Category;
     recipient?: Recipient;
-    created_at?: string;
-    date?: Date;
 
     constructor(
         id?: number,
@@ -18,7 +18,7 @@ export class MoneyTransaction {
         recipient_id?: number,
         category?: Category,
         recipient?: Recipient,
-        created_at?: string,
+        created_at?: number,
     ) {
         (this.id = id),
             (this.value = value),

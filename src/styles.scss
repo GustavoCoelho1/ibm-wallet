@@ -15,8 +15,7 @@ button {
     border: none;
 }
 
-input:focus,
-select:focus {
+*:focus {
     outline: none;
 }
 

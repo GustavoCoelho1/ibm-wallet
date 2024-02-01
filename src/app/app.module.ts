@@ -15,6 +15,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { UpdateMoneyTransactionComponent } from './components/pages/auth/dashboard/components/update-money-transaction/update-money-transaction.component';
+import { DeleteMoneyTransactionComponent } from './components/pages/auth/dashboard/components/delete-money-transaction/delete-money-transaction.component';
+import { SaveMoneyTransactionComponent } from './components/pages/auth/dashboard/components/save-money-transaction/save-money-transaction.component';
+import { SaveLargeScaleMoneyTransactionComponent } from './components/pages/auth/dashboard/components/save-large-scale-money-transaction/save-large-scale-money-transaction.component';
+import { SaveCategoryComponent } from './components/pages/auth/categories/components/save-category/save-category.component';
+import { UpdateCategoryComponent } from './components/pages/auth/categories/components/update-category/update-category.component';
+import { DeleteCategoryComponent } from './components/pages/auth/categories/components/delete-category/delete-category.component';
 
 @NgModule({
     declarations: [
@@ -25,6 +32,13 @@ import { CommonModule } from '@angular/common';
         DashboardComponent,
         LoginComponent,
         SignupComponent,
+        UpdateMoneyTransactionComponent,
+        DeleteMoneyTransactionComponent,
+        SaveMoneyTransactionComponent,
+        SaveLargeScaleMoneyTransactionComponent,
+        SaveCategoryComponent,
+        UpdateCategoryComponent,
+        DeleteCategoryComponent,
     ],
     imports: [
         CommonModule,

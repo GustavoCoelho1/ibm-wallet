@@ -1,0 +1,45 @@
+<div class="modalTitle font-heading">
+    <h2>Nova transação</h2>
+</div>
+<div class="inputsContainer">
+    <div class="inputContainer">
+        <label for="">Valor da transação</label>
+        <input [(ngModel)]="modalData.value" type="number" />
+    </div>
+    <div class="inputContainer">
+        <label for="">Categoria</label>
+        <select [(ngModel)]="modalData.category_id">
+            <option
+                *ngFor="let category of categories"
+                [selected]="category.id == modalData.category_id"
+                [value]="category.id"
+            >
+                {{ category.name }}
+            </option>
+        </select>
+    </div>
+    <div class="inputContainer">
+        <label for="">Destinatário</label>
+        <select [(ngModel)]="modalData.recipient_id">
+            <option
+                *ngFor="let recipient of recipients"
+                [selected]="recipient.id == modalData.recipient_id"
+                [value]="recipient.id"
+            >
+                {{ recipient.name }}
+            </option>
+        </select>
+    </div>
+    <div class="inputContainer">
+        <label for="">Data</label>
+        <input
+            [(ngModel)]="modalData.date"
+            type="date"
+            [value]="modalData.date"
+        />
+    </div>
+</div>
+
+<button [disabled]="isLoading" (click)="onClickSubmit()" class="modalSubmit">
+    Salvar
+</button>

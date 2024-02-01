@@ -1,0 +1,10 @@
+<div class="modalTitle font-heading">
+    <h2>Nova transação</h2>
+</div>
+<div class="inputContainer">
+    <label for="">Transações em massa</label>
+    <textarea [(ngModel)]="modalData.content" type="number"></textarea>
+</div>
+<button [disabled]="isLoading" (click)="onClickSubmit()" class="modalSubmit">
+    Salvar
+</button>

@@ -82,59 +82,13 @@
 >
     <!--Criar-->
     <div class="modalContainer" *ngIf="currentModal.action == 'save'">
-        <div class="modalTitle">
-            <h2>Nova transação</h2>
-        </div>
-        <div class="inputsContainer">
-            <div class="inputContainer">
-                <label for="">Valor da transação</label>
-                <input [(ngModel)]="currentModal.data.value" type="number" />
-            </div>
-            <div class="inputContainer">
-                <label for="">Categoria</label>
-                <select [(ngModel)]="currentModal.data.category_id">
-                    <option
-                        *ngFor="let category of categories"
-                        [selected]="
-                            category.id == currentModal.data.category_id
-                        "
-                        [value]="category.id"
-                    >
-                        {{ category.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="inputContainer">
-                <label for="">Destinatário</label>
-                <select [(ngModel)]="currentModal.data.recipient_id">
-                    <option
-                        *ngFor="let recipient of recipients"
-                        [selected]="
-                            recipient.id == currentModal.data.recipient_id
-                        "
-                        [value]="recipient.id"
-                    >
-                        {{ recipient.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="inputContainer">
-                <label for="">Data</label>
-                <input
-                    [(ngModel)]="currentModal.data.date"
-                    type="date"
-                    [value]="currentModal.data.date"
-                />
-            </div>
-        </div>
-
-        <button
-            [disabled]="isModalLoading"
-            (click)="onClickModalSave()"
-            class="modalSubmit"
-        >
-            Salvar
-        </button>
+        <app-save-money-transaction
+            class="container"
+            [modalData]="currentModal.data"
+            [categories]="categories"
+            [recipients]="recipients"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-save-money-transaction>
     </div>
 
     <!--Criar em massa-->
@@ -142,116 +96,34 @@
         class="modalContainer largeScale"
         *ngIf="currentModal.action == 'largeScaleSave'"
     >
-        <div class="modalTitle">
-            <h2>Nova transação</h2>
-        </div>
-        <div class="inputsContainer">
-            <div class="inputContainer">
-                <label for="">Transações em massa</label>
-                <textarea
-                    [(ngModel)]="currentModal.data.content"
-                    type="number"
-                ></textarea>
-            </div>
-            <span class="modalWarning"
-                >Atenção: Não deixe espaços em branco</span
-            >
-        </div>
-
-        <button
-            [disabled]="isModalLoading"
-            (click)="onClickModalLargeScaleSave()"
-            class="modalSubmit"
-        >
-            Salvar
-        </button>
+        <app-save-large-scale-money-transaction
+            class="container"
+            [modalData]="currentModal.data"
+            [categories]="categories"
+            [recipients]="recipients"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-save-large-scale-money-transaction>
     </div>
 
     <!--Alterar-->
     <div class="modalContainer" *ngIf="currentModal.action == 'update'">
-        <div class="modalTitle">
-            <h2>Atualizar</h2>
-            <span>#{{ currentModal.data.id }}</span>
-        </div>
-        <div class="inputsContainer">
-            <div class="inputContainer">
-                <label for="">Valor da transação</label>
-                <input [(ngModel)]="currentModal.data.value" type="number" />
-            </div>
-            <div class="inputContainer">
-                <label for="">Categoria</label>
-                <select [(ngModel)]="currentModal.data.category_id">
-                    <option
-                        *ngFor="let category of categories"
-                        [selected]="
-                            category.id == currentModal.data.category_id
-                        "
-                        [value]="category.id"
-                    >
-                        {{ category.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="inputContainer">
-                <label for="">Destinatário</label>
-                <select [(ngModel)]="currentModal.data.recipient_id">
-                    <option
-                        *ngFor="let recipient of recipients"
-                        [selected]="
-                            recipient.id == currentModal.data.recipient_id
-                        "
-                        [value]="recipient.id"
-                    >
-                        {{ recipient.name }}
-                    </option>
-                </select>
-            </div>
-            <div class="inputContainer">
-                <label for="">Data</label>
-                <input [(ngModel)]="currentModal.data.date" type="date" />
-            </div>
-        </div>
-
-        <button
-            [disabled]="isModalLoading"
-            (click)="onClickModalUpdate()"
-            class="modalSubmit"
-        >
-            Atualizar
-        </button>
+        <app-update-money-transaction
+            class="container"
+            [modalData]="currentModal.data"
+            [categories]="categories"
+            [recipients]="recipients"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-update-money-transaction>
     </div>
 
     <!--Deletar-->
     <div class="modalContainer" *ngIf="currentModal.action == 'delete'">
-        <h2>Deletar</h2>
-        <div class="confirmationContainer">
-            <span
-                >Tem certeza que deseja deletar a transação #{{
-                    currentModal.data.id
-                }}?</span
-            >
-            <div class="confirmationInfo">
-                <span
-                    ><b>Valor: </b>
-                    {{ currentModal.data.value?.toFixed(2) }}</span
-                >
-                <span
-                    ><b>Categoria: </b
-                    >{{ currentModal.data.category.name }}</span
-                >
-                <span
-                    ><b>Destinatário: </b
-                    >{{ currentModal.data.recipient.name }}</span
-                >
-            </div>
-        </div>
-
-        <button
-            [disabled]="isModalLoading"
-            (click)="onClickModalDelete()"
-            class="modalSubmit"
-        >
-            Deletar
-        </button>
+        <app-delete-money-transaction
+            class="container"
+            [modalData]="currentModal.data"
+            [categories]="categories"
+            [recipients]="recipients"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-delete-money-transaction>
     </div>
 </app-modal>

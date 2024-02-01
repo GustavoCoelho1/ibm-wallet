@@ -135,11 +135,20 @@ main {
     align-items: start;
     justify-content: center;
     gap: 2rem;
-    width: 300px;
+    width: 400px;
     height: 100%;
     padding: 2rem;
     border-radius: 1.25rem;
     background-color: #0a181d;
+}
+
+.largeScale {
+    width: 500px;
+}
+
+.modalWarning {
+    font-size: 0.75rem;
+    color: rgb(95, 121, 129);
 }
 
 .modalContainer h2 {
@@ -189,6 +198,11 @@ main {
     padding: 0.75rem 0.75rem;
     border-radius: 0.75rem;
     cursor: pointer;
+}
+
+.modalSubmit:disabled {
+    opacity: 0.5;
+    cursor: default;
 }
 
 .modalTitle {

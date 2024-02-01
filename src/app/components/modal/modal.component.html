@@ -1,7 +1,7 @@
 <div class="modal">
     <div class="modalContainer">
-        <button class="closeContainer">
-            <span (click)="emitCloseModal()">✕</span>
+        <button (click)="emitCloseModal()" class="closeContainer">
+            <span>✕</span>
         </button>
         <div class="modalContent">
             <ng-content></ng-content>

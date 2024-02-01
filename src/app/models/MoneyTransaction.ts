@@ -6,7 +6,7 @@ export class MoneyTransaction {
     value?: number;
     category_id?: number;
     recipient_id?: number;
-    created_at?: number;
+    date?: number;
 
     category?: Category;
     recipient?: Recipient;
@@ -18,13 +18,13 @@ export class MoneyTransaction {
         recipient_id?: number,
         category?: Category,
         recipient?: Recipient,
-        created_at?: number,
+        date?: number,
     ) {
         (this.id = id),
             (this.value = value),
             (this.category = category),
             (this.recipient = recipient),
-            (this.created_at = created_at),
+            (this.date = date),
             (this.category_id = category_id),
             (this.recipient_id = recipient_id);
     }

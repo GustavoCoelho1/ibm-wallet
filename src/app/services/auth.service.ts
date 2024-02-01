@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Client } from '../models/Client';
@@ -25,6 +25,11 @@ export class AuthService {
     private loginPath = '/client/login';
     private client?: { id: number; email: string; name: string };
 
+    textResponseHeader = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain', // O retorno é um text
+    });
+
     private tokenKey = 'token';
 
     signIn({ email, password }: Client): Observable<boolean> {
@@ -33,18 +38,23 @@ export class AuthService {
             password,
         };
 
-        return this.http.post<String>(this.apiUrl + this.loginPath, body).pipe(
-            map((res: any) => {
-                console.log(res);
-                localStorage.setItem('token', res);
-                this.client = this.getClientFromToken(res);
-                return true;
-            }),
-            catchError((err) => {
-                console.log(err);
-                return of(false);
-            }),
-        );
+        return this.http
+            .post(this.apiUrl + this.loginPath, body, {
+                headers: this.textResponseHeader,
+                responseType: 'text',
+            })
+            .pipe(
+                map((res: any) => {
+                    console.log(res);
+                    localStorage.setItem('token', res);
+                    this.client = this.getClientFromToken(res);
+                    return true;
+                }),
+                catchError((err) => {
+                    console.log(err);
+                    return of(false);
+                }),
+            );
     }
 
     signUp({ name, email, password }: Client): Observable<boolean> {
@@ -54,18 +64,21 @@ export class AuthService {
             password,
         };
 
-        console.log(body);
-
-        return this.http.post<String>(this.apiUrl + this.clientPath, body).pipe(
-            map((res: any) => {
-                console.log(res);
-                return true;
-            }),
-            catchError((err) => {
-                console.log(err);
-                return of(false);
-            }),
-        );
+        return this.http
+            .post(this.apiUrl + this.clientPath, body, {
+                headers: this.textResponseHeader,
+                responseType: 'text',
+            })
+            .pipe(
+                map((res: any) => {
+                    console.log(res);
+                    return true;
+                }),
+                catchError((err) => {
+                    console.log(err);
+                    return of(false);
+                }),
+            );
     }
 
     validateToken(token: string): boolean {

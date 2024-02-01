@@ -7,8 +7,11 @@
             <div class="lastTransactionsContainer">
                 <span>Últimas transações</span>
                 <div class="transactionsTableContainer">
-                    <span *ngIf="isLoading == true">Carregando...</span>
-                    <span *ngIf="transactions.length == 0 && isLoading == false"
+                    <span *ngIf="isTableLoading == true">Carregando...</span>
+                    <span
+                        *ngIf="
+                            transactions.length == 0 && isTableLoading == false
+                        "
                         >Ainda não há registros!</span
                     >
                     <table
@@ -17,6 +20,7 @@
                     >
                         <tr class="tableHeadersContainer">
                             <th>#</th>
+                            <th>Data</th>
                             <th>Valor</th>
                             <th>Categoria</th>
                             <th>Destinatário</th>
@@ -28,6 +32,7 @@
                             *ngFor="let transaction of transactions"
                         >
                             <th>{{ transaction.id }}</th>
+                            <td>{{ transaction.date }}</td>
                             <td>{{ transaction.value?.toFixed(2) }}</td>
                             <td>{{ transaction.category?.name }}</td>
                             <td>{{ transaction.recipient?.name }}</td>
@@ -52,9 +57,12 @@
 
                     <div
                         class="newItemButtonContainer"
-                        *ngIf="isLoading == false"
+                        *ngIf="isTableLoading == false"
                     >
                         <button (click)="onClickNew()">+ Nova transação</button>
+                        <button (click)="onClickLargeScale()">
+                            + Novas transações (em massa)
+                        </button>
                     </div>
                 </div>
             </div>
@@ -80,7 +88,7 @@
         <div class="inputsContainer">
             <div class="inputContainer">
                 <label for="">Valor da transação</label>
-                <input [(ngModel)]="currentModal.data.value" type="text" />
+                <input [(ngModel)]="currentModal.data.value" type="number" />
             </div>
             <div class="inputContainer">
                 <label for="">Categoria</label>
@@ -112,11 +120,51 @@
             </div>
             <div class="inputContainer">
                 <label for="">Data</label>
-                <input [(ngModel)]="currentModal.data.created_at" type="date" />
+                <input
+                    [(ngModel)]="currentModal.data.date"
+                    type="date"
+                    [value]="currentModal.data.date"
+                />
             </div>
         </div>
 
-        <button (click)="onClickModalSave()" class="modalSubmit">Salvar</button>
+        <button
+            [disabled]="isModalLoading"
+            (click)="onClickModalSave()"
+            class="modalSubmit"
+        >
+            Salvar
+        </button>
+    </div>
+
+    <!--Criar em massa-->
+    <div
+        class="modalContainer largeScale"
+        *ngIf="currentModal.action == 'largeScaleSave'"
+    >
+        <div class="modalTitle">
+            <h2>Nova transação</h2>
+        </div>
+        <div class="inputsContainer">
+            <div class="inputContainer">
+                <label for="">Transações em massa</label>
+                <textarea
+                    [(ngModel)]="currentModal.data.content"
+                    type="number"
+                ></textarea>
+            </div>
+            <span class="modalWarning"
+                >Atenção: Não deixe espaços em branco</span
+            >
+        </div>
+
+        <button
+            [disabled]="isModalLoading"
+            (click)="onClickModalLargeScaleSave()"
+            class="modalSubmit"
+        >
+            Salvar
+        </button>
     </div>
 
     <!--Alterar-->
@@ -128,7 +176,7 @@
         <div class="inputsContainer">
             <div class="inputContainer">
                 <label for="">Valor da transação</label>
-                <input [(ngModel)]="currentModal.data.value" type="text" />
+                <input [(ngModel)]="currentModal.data.value" type="number" />
             </div>
             <div class="inputContainer">
                 <label for="">Categoria</label>
@@ -160,11 +208,15 @@
             </div>
             <div class="inputContainer">
                 <label for="">Data</label>
-                <input [(ngModel)]="currentModal.data.created_at" type="date" />
+                <input [(ngModel)]="currentModal.data.date" type="date" />
             </div>
         </div>
 
-        <button (click)="onClickModalUpdate()" class="modalSubmit">
+        <button
+            [disabled]="isModalLoading"
+            (click)="onClickModalUpdate()"
+            class="modalSubmit"
+        >
             Atualizar
         </button>
     </div>
@@ -194,7 +246,11 @@
             </div>
         </div>
 
-        <button (click)="onClickModalDelete()" class="modalSubmit">
+        <button
+            [disabled]="isModalLoading"
+            (click)="onClickModalDelete()"
+            class="modalSubmit"
+        >
             Deletar
         </button>
     </div>

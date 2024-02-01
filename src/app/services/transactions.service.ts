@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { AuthService } from './auth.service';
@@ -12,11 +12,14 @@ import { ToastrService } from 'ngx-toastr';
 export class TransactionsService {
     private apiUrl = environment.apiUrl;
 
-    private transactionGetPath = '/moneyTransaction/client?id=';
     private transactionPath = '/moneyTransaction';
-
     private categoriesPath = '/category';
     private recipientsPath = '/recipient';
+
+    textResponseHeader = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: 'text/plain', // O retorno é um text
+    });
 
     getAllClientTransacitons() {
         const clientId = this.authService.getClient()?.id;
@@ -29,7 +32,7 @@ export class TransactionsService {
         }
 
         return this.http.get<any>(
-            this.apiUrl + this.transactionGetPath + clientId,
+            this.apiUrl + this.transactionPath + '/client?id=' + clientId,
         );
     }
 
@@ -43,7 +46,9 @@ export class TransactionsService {
             return;
         }
 
-        return this.http.get<any>(this.apiUrl + this.categoriesPath);
+        return this.http.get<any>(
+            this.apiUrl + this.categoriesPath + '/client?id=' + clientId,
+        );
     }
 
     getAllClientRecipients() {
@@ -56,7 +61,9 @@ export class TransactionsService {
             return;
         }
 
-        return this.http.get<any>(this.apiUrl + this.recipientsPath);
+        return this.http.get(
+            this.apiUrl + this.recipientsPath + '/client?id=' + clientId,
+        );
     }
 
     async saveTransaction(data: MoneyTransaction): Promise<any> {
@@ -64,9 +71,10 @@ export class TransactionsService {
             //Update
 
             const request$ = this.http
-                .put<any>(
+                .put(
                     this.apiUrl + this.transactionPath + `?update=${data.id}`,
                     data,
+                    { headers: this.textResponseHeader, responseType: 'text' },
                 )
                 .pipe(take(1));
 
@@ -83,7 +91,10 @@ export class TransactionsService {
             const dataClientId = { ...data, client_id: clientId };
 
             const request$ = this.http
-                .post<any>(this.apiUrl + this.transactionPath, dataClientId)
+                .post(this.apiUrl + this.transactionPath, dataClientId, {
+                    headers: this.textResponseHeader,
+                    responseType: 'text',
+                })
                 .pipe(take(1));
 
             return await lastValueFrom<any>(request$);
@@ -92,7 +103,10 @@ export class TransactionsService {
 
     async deleteTransaction(id: number): Promise<any> {
         const request$ = this.http
-            .delete<any>(this.apiUrl + this.transactionPath + `?delete=${id}`)
+            .delete(this.apiUrl + this.transactionPath + `?delete=${id}`, {
+                headers: this.textResponseHeader,
+                responseType: 'text',
+            })
             .pipe(take(1));
 
         return await lastValueFrom<any>(request$);

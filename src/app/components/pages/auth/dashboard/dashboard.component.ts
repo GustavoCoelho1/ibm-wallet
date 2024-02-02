@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
     isModalLoading = false;
 
     currentModal?: {
-        action: 'save' | 'update' | 'delete' | 'largeScaleSave';
+        action: 'save' | 'update' | 'delete' | 'largeScaleSave' | 'clearAll';
         data: any;
     } | null;
 
@@ -72,8 +72,6 @@ export class DashboardComponent implements OnInit {
 
     timestampToDate(timestamp: number) {
         const rawDate = new Date(timestamp);
-
-        console.log(rawDate);
 
         let day = rawDate.getUTCDate().toString();
         day = Number(day) < 10 ? '0' + day : day; //Formata no modelo "dd/mm/yyyy"
@@ -161,6 +159,18 @@ export class DashboardComponent implements OnInit {
     onClickNew() {
         this.currentModal = {
             action: 'save',
+            data: {
+                value: null,
+                category_id: null,
+                recipient_id: null,
+                date: null,
+            },
+        };
+    }
+
+    onClickClearAll() {
+        this.currentModal = {
+            action: 'clearAll',
             data: {
                 value: null,
                 category_id: null,

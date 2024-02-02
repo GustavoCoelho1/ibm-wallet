@@ -22,6 +22,9 @@ import { SaveLargeScaleMoneyTransactionComponent } from './components/pages/auth
 import { SaveCategoryComponent } from './components/pages/auth/categories/components/save-category/save-category.component';
 import { UpdateCategoryComponent } from './components/pages/auth/categories/components/update-category/update-category.component';
 import { DeleteCategoryComponent } from './components/pages/auth/categories/components/delete-category/delete-category.component';
+import { ClearAllMoneyTransactionComponent } from './components/pages/auth/dashboard/components/clear-all-money-transaction/clear-all-money-transaction.component';
+import { CategoriesComponent } from './components/pages/auth/categories/categories.component';
+import { RecipientsComponent } from './components/pages/auth/recipients/recipients.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +42,9 @@ import { DeleteCategoryComponent } from './components/pages/auth/categories/comp
         SaveCategoryComponent,
         UpdateCategoryComponent,
         DeleteCategoryComponent,
+        ClearAllMoneyTransactionComponent,
+        CategoriesComponent,
+        RecipientsComponent,
     ],
     imports: [
         CommonModule,

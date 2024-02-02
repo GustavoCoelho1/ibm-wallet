@@ -22,7 +22,7 @@ export type TransactionLargeScaleData = {
 };
 
 export type TransactionFormSubmitted = {
-    operation: 'save' | 'update' | 'delete' | 'largeScaleSave';
+    operation: 'save' | 'update' | 'delete' | 'largeScaleSave' | 'clearAll';
     success: boolean;
     message: string;
 };

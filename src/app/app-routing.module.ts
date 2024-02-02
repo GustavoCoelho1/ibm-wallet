@@ -6,6 +6,7 @@ import { SignupComponent } from './components/pages/signup/signup.component';
 import { DashboardComponent } from './components/pages/auth/dashboard/dashboard.component';
 import { AuthGuard } from './guard/auth.guard';
 import { CategoriesComponent } from './components/pages/auth/categories/categories.component';
+import { RecipientsComponent } from './components/pages/auth/recipients/recipients.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -19,6 +20,11 @@ const routes: Routes = [
     {
         path: 'auth/categories',
         component: CategoriesComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'auth/recipients',
+        component: RecipientsComponent,
         canActivate: [AuthGuard],
     },
 ];

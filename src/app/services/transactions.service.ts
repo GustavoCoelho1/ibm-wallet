@@ -101,9 +101,45 @@ export class TransactionsService {
         }
     }
 
+    async largeScaleSaveTransaction(data: Array<string[]>): Promise<any> {
+        //Save
+
+        const clientId = this.authService.getClient()?.id;
+
+        if (!clientId) {
+            return false;
+        }
+
+        const dataClientId = { client_id: clientId, dataList: data };
+
+        const request$ = this.http
+            .post(
+                this.apiUrl + this.transactionPath + '/largeScale',
+                dataClientId,
+                {
+                    headers: this.textResponseHeader,
+                    responseType: 'text',
+                },
+            )
+            .pipe(take(1));
+
+        return await lastValueFrom<any>(request$);
+    }
+
     async deleteTransaction(id: number): Promise<any> {
         const request$ = this.http
             .delete(this.apiUrl + this.transactionPath + `?delete=${id}`, {
+                headers: this.textResponseHeader,
+                responseType: 'text',
+            })
+            .pipe(take(1));
+
+        return await lastValueFrom<any>(request$);
+    }
+
+    async clearAllTransactions(): Promise<any> {
+        const request$ = this.http
+            .delete(this.apiUrl + this.transactionPath + `/clearAll`, {
                 headers: this.textResponseHeader,
                 responseType: 'text',
             })

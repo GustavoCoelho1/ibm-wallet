@@ -1,0 +1,10 @@
+<div class="modalTitle font-heading">
+    <h2>Limpar tudo</h2>
+</div>
+<div class="confirmationContainer">
+    <span>Tem certeza que deseja limpar todos os registros de transação?</span>
+</div>
+
+<button [disabled]="isLoading" (click)="onClickSubmit()" class="modalSubmit">
+    Limpar
+</button>

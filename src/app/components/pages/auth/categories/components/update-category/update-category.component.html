@@ -1,1 +1,14 @@
-<p>update-category works!</p>
+<div class="modalTitle font-heading">
+    <h2>Atualizar</h2>
+    <span>#{{ modalData.id }}</span>
+</div>
+<div class="inputsContainer">
+    <div class="inputContainer">
+        <label for="">Nome</label>
+        <input [(ngModel)]="modalData.name" type="number" />
+    </div>
+</div>
+
+<button [disabled]="isLoading" (click)="onClickSubmit()" class="modalSubmit">
+    Atualizar
+</button>

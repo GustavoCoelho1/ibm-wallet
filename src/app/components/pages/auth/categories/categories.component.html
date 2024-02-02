@@ -2,43 +2,109 @@
     <div class="container">
         <div class="transactionsContainer">
             <div class="transactionsHeader">
-                <div><h1>Categorias</h1></div>
-                <div class="transactionsHeaderButtonsContainer">
-                    <button>Nova categoria</button>
-                    <button>Alterar categoria</button>
-                    <button>Deletar categoria</button>
-                </div>
+                <h1 class="font-heading">Categorias</h1>
+                <div></div>
             </div>
-            <div class="lastTransactionsContainer">
-                <span>Últimas categorias inseridas</span>
-                <div class="transactionsTableContainer">
-                    <span>Ainda não há registros de categoria!</span>
-                    <table class="transactionsTable">
-                        <tr class="tableHeadersContainer">
-                            <th>#</th>
-                            <th>Nome</th>
-                        </tr>
-                        <tr
-                            class="tableRow"
-                            *ngFor="let category of categories"
+            <div class="tablesContainer">
+                <div class="lastTransactionsContainer">
+                    <span>Últimas transações</span>
+                    <div class="transactionsTableContainer">
+                        <span *ngIf="isTableLoading == true"
+                            >Carregando...</span
                         >
-                            <th>{{ category.id }}</th>
-                            <td>{{ category.name }}</td>
-                            <td>
-                                <button class="updateButton">Alterar</button>
-                            </td>
-                            <td>
-                                <button class="deleteButton">Deletar</button>
-                            </td>
-                        </tr>
-                    </table>
+                        <span
+                            *ngIf="
+                                categories.length == 0 &&
+                                isTableLoading == false
+                            "
+                            >Ainda não há registros!</span
+                        >
+                        <table
+                            class="transactionsTable"
+                            *ngIf="categories.length > 0"
+                        >
+                            <tr class="tableHeadersContainer">
+                                <th>#</th>
+                                <th>Nome</th>
+                            </tr>
+                            <tr
+                                class="tableRow"
+                                *ngFor="let category of categories"
+                            >
+                                <th>{{ category.id }}</th>
+                                <td>{{ category.name }}</td>
+                                <td>
+                                    <button
+                                        (click)="onClickUpdate(category)"
+                                        class="updateButton"
+                                    >
+                                        Alterar
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        (click)="onClickDelete(category)"
+                                        class="deleteButton"
+                                    >
+                                        Deletar
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div
+                            class="newItemButtonContainer"
+                            *ngIf="isTableLoading == false"
+                        >
+                            <button (click)="onClickNew()">
+                                + Nova transação
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="entitiesContainer">
+                    <span>Outras entidades</span>
+                    <div class="entitiesItems">
+                        <button routerLink="/auth/dashboard">Transações</button>
+                        <button routerLink="/auth/recipients">
+                            Destinatários
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="entitiesContainer">
-            <span>Outras entidades</span>
-            <button routerLink="/auth/dashboard">Transações</button>
-            <button routerLink="/auth/recipients">Destinatários</button>
         </div>
     </div>
 </main>
+
+<app-modal
+    (closeModal)="receiveCloseModal($event)"
+    modalId="actionModal"
+    *ngIf="currentModal != null"
+>
+    <!--Criar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'save'">
+        <app-save-category
+            class="container"
+            [modalData]="currentModal.data"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-save-category>
+    </div>
+
+    <!--Alterar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'update'">
+        <app-update-category
+            class="container"
+            [modalData]="currentModal.data"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-update-category>
+    </div>
+
+    <!--Deletar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'delete'">
+        <app-delete-category
+            class="container"
+            [modalData]="currentModal.data"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-delete-category>
+    </div>
+</app-modal>

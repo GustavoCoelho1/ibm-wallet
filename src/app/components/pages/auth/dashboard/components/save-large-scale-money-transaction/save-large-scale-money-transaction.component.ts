@@ -5,6 +5,8 @@ import {
 } from '../../types';
 import { Category } from '../../../../../../models/Category';
 import { Recipient } from '../../../../../../models/Recipient';
+import { TransactionsService } from '../../../../../../services/transactions.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-save-large-scale-money-transaction',
@@ -28,7 +30,7 @@ export class SaveLargeScaleMoneyTransactionComponent {
 
     isLoading = false;
 
-    validateLargeScaleDate(date: string) {
+    isValidDate(date: string) {
         const dateArr = date.split('-');
 
         if (dateArr.length != 3) {
@@ -44,20 +46,30 @@ export class SaveLargeScaleMoneyTransactionComponent {
             return false;
         }
 
-        if (dateArr[1].length != 2 || monthNaN) {
-            //Campo de mês, mês deve ter 2 dígitos e deve ser um número
+        if (
+            dateArr[1].length != 2 ||
+            monthNaN ||
+            Number(dateArr[1]) < 1 ||
+            Number(dateArr[1]) > 12
+        ) {
+            //Campo de mês, mês deve ter 2 dígitos, deve ser um número e deve estar entre 1 e 12
             return false;
         }
 
-        if (dateArr[2].length != 2 || dateNaN) {
-            //Campo de dia, dia deve ter 2 dígitos e deve ser um número
+        if (
+            dateArr[2].length != 2 ||
+            dateNaN ||
+            Number(dateArr[2]) < 1 ||
+            Number(dateArr[2]) > 31
+        ) {
+            //Campo de dia, dia deve ter 2 dígitos e deve ser um número e deve estar entre 1 e 31
             return false;
         }
 
         return true;
     }
 
-    validateLargeScaleCategory(categoryName: string) {
+    isValidCategory(categoryName: string) {
         const categoryExists =
             this.categories.filter((cat) => cat.name === categoryName).length >
             0;
@@ -65,7 +77,7 @@ export class SaveLargeScaleMoneyTransactionComponent {
         return categoryExists;
     }
 
-    validateLargeScaleRecipient(recipientName: string) {
+    isValidRecipient(recipientName: string) {
         const recipientExists =
             this.recipients.filter((rec) => rec.name === recipientName).length >
             0;
@@ -73,7 +85,7 @@ export class SaveLargeScaleMoneyTransactionComponent {
         return recipientExists;
     }
 
-    validateLargeScaleRegister(register: string[]) {
+    isValidRegister(register: string[]) {
         const transactionArr = register;
 
         const transactionDate = transactionArr[0];
@@ -81,12 +93,10 @@ export class SaveLargeScaleMoneyTransactionComponent {
         const transactionCategoryName = transactionArr[2];
         const transactionRecipientName = transactionArr[3];
 
-        const validatedDate = this.validateLargeScaleDate(transactionDate);
+        const validatedDate = this.isValidDate(transactionDate);
         const validatedValue = !Number.isNaN(transactionValue);
-        const validatedCategory = this.validateLargeScaleCategory(
-            transactionCategoryName,
-        );
-        const validatedRecipient = this.validateLargeScaleRecipient(
+        const validatedCategory = this.isValidCategory(transactionCategoryName);
+        const validatedRecipient = this.isValidRecipient(
             transactionRecipientName,
         );
 
@@ -98,18 +108,16 @@ export class SaveLargeScaleMoneyTransactionComponent {
         ].every((validation) => validation === true);
     }
 
-    validateLargeScaleList(list: string[]): boolean {
-        let validList = false;
+    mapTransactionList(list: string[]): Array<string[]> | null {
+        //Valida e converte as linhas da lista de "2022-02-1,10.0,alimentacao,ifood" para ["2022-02-1", "10.0", "alimentacao", "ifood"]
+        let validList = true;
         let idx = 1;
 
-        let error = [];
+        let newList = [];
 
         for (let x = 0; x < list.length; x++) {
             const row = list[x];
             const transactionArr = row.split(',');
-
-            console.log(row);
-            console.log(transactionArr.length);
 
             if (transactionArr.length !== 4) {
                 //Se quando separar a string por "," não houver 4 strings independentes, quer dizer que essa linha não está formatada do modo correto (<data>,<valor>,<categoria>,<destinario/remetente>)
@@ -117,55 +125,40 @@ export class SaveLargeScaleMoneyTransactionComponent {
                 break;
             }
 
-            const transactionDate = transactionArr[0];
-            const transactionValue = transactionArr[1];
-            const transactionCategoryName = transactionArr[2];
-            const transactionRecipientName = transactionArr[3];
+            const date = transactionArr[0];
+            const value = transactionArr[1];
+            const categoryName = transactionArr[2];
+            const recipientName = transactionArr[3];
 
-            const validatedDate = this.validateLargeScaleDate(transactionDate);
-            const validatedValue = !Number.isNaN(transactionValue);
-            const validatedCategory = this.validateLargeScaleCategory(
-                transactionCategoryName,
-            );
-            const validatedRecipient = this.validateLargeScaleRecipient(
-                transactionRecipientName,
-            );
-
-            if (!validatedDate) {
-                error.push('Data inválida no registro/linha: ' + idx);
-            }
-
-            if (!validatedValue) {
-                error.push(
-                    'Valor de transação inválido no registro/linha: ' + idx,
+            if (
+                !this.isValidDate(date) ||
+                Number.isNaN(value) ||
+                !this.isValidCategory(categoryName) ||
+                !this.isValidRecipient(recipientName)
+            ) {
+                this.toastrService.error(
+                    'Dados inválidos no registro/linha: ' + idx,
                 );
-            }
-
-            if (!validatedCategory) {
-                error.push(
-                    'Categoria não resgistrada no registro/linha: ' + idx,
+                console.log(
+                    this.isValidDate(date),
+                    Number.isNaN(value),
+                    this.isValidCategory(categoryName),
+                    this.isValidRecipient(recipientName),
                 );
-            }
-
-            if (!validatedRecipient) {
-                error.push(
-                    'Destinatário não registrado no registro/linha: ' + idx,
-                );
-            }
-
-            if (error.length > 0) {
                 validList = false;
                 break;
             }
 
-            validList = true;
+            newList.push([date, value, categoryName, recipientName]);
 
             idx++;
         }
 
-        console.log(error);
+        if (validList && newList.length === list.length) {
+            return newList;
+        }
 
-        return validList;
+        return null;
     }
 
     removeLastSemicolon(str: string) {
@@ -184,18 +177,42 @@ export class SaveLargeScaleMoneyTransactionComponent {
 
         if (contentData.includes(';')) {
             //Inserindo múltiplas linhas
-
             if (contentData.includes('\n')) {
                 contentData = contentData.replace('\n', ''); //Retirando os backspaces
             }
+
             const contentList = contentData.split(';'); //Dividindo os registros pelos ponto e vírgula
 
-            let validList = this.validateLargeScaleList(contentList);
+            const mappedList = this.mapTransactionList(contentList);
 
-            if (validList) {
-                console.log('OK');
-            } else {
-                console.log('No');
+            if (mappedList) {
+                this.isLoading = true;
+
+                await this.transactionService
+                    .largeScaleSaveTransaction(mappedList)
+                    .catch((err) => {
+                        console.log(err);
+                        return false;
+                    })
+                    .then((res) => {
+                        if (res != false) {
+                            this.formSubmitted.emit({
+                                operation: 'save',
+                                success: true,
+                                message:
+                                    'Os registros foram salvo com sucesso!',
+                            });
+                        } else {
+                            this.formSubmitted.emit({
+                                operation: 'save',
+                                success: false,
+                                message:
+                                    'Houve um erro ao salvar os registros!',
+                            });
+                        }
+                    });
+
+                this.isLoading = false;
             }
         } else if (
             contentData.includes(',') &&
@@ -205,10 +222,7 @@ export class SaveLargeScaleMoneyTransactionComponent {
 
             const contentRegister = contentData.split(',');
 
-            let validRegister =
-                this.validateLargeScaleRegister(contentRegister);
-
-            if (validRegister) {
+            if (this.isValidRegister(contentRegister)) {
                 console.log('OK');
             } else {
                 console.log('No');
@@ -217,4 +231,9 @@ export class SaveLargeScaleMoneyTransactionComponent {
             console.log('No');
         }
     }
+
+    constructor(
+        private transactionService: TransactionsService,
+        private toastrService: ToastrService,
+    ) {}
 }

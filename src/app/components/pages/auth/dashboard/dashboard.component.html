@@ -3,74 +3,94 @@
         <div class="transactionsContainer">
             <div class="transactionsHeader">
                 <h1 class="font-heading">Transações</h1>
+                <div></div>
             </div>
-            <div class="lastTransactionsContainer">
-                <span>Últimas transações</span>
-                <div class="transactionsTableContainer">
-                    <span *ngIf="isTableLoading == true">Carregando...</span>
-                    <span
-                        *ngIf="
-                            transactions.length == 0 && isTableLoading == false
-                        "
-                        >Ainda não há registros!</span
-                    >
-                    <table
-                        class="transactionsTable"
-                        *ngIf="transactions.length > 0"
-                    >
-                        <tr class="tableHeadersContainer">
-                            <th>#</th>
-                            <th>Data</th>
-                            <th>Valor</th>
-                            <th>Categoria</th>
-                            <th>Destinatário</th>
-                            <th>Alterar</th>
-                            <th>Deletar</th>
-                        </tr>
-                        <tr
-                            class="tableRow"
-                            *ngFor="let transaction of transactions"
+            <div class="tablesContainer">
+                <div class="lastTransactionsContainer">
+                    <span>Últimas transações</span>
+                    <div class="transactionsTableContainer">
+                        <span *ngIf="isTableLoading == true"
+                            >Carregando...</span
                         >
-                            <th>{{ transaction.id }}</th>
-                            <td>{{ transaction.date }}</td>
-                            <td>{{ transaction.value?.toFixed(2) }}</td>
-                            <td>{{ transaction.category?.name }}</td>
-                            <td>{{ transaction.recipient?.name }}</td>
-                            <td>
-                                <button
-                                    (click)="onClickUpdate(transaction)"
-                                    class="updateButton"
-                                >
-                                    Alterar
-                                </button>
-                            </td>
-                            <td>
-                                <button
-                                    (click)="onClickDelete(transaction)"
-                                    class="deleteButton"
-                                >
-                                    Deletar
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
+                        <span
+                            *ngIf="
+                                transactions.length == 0 &&
+                                isTableLoading == false
+                            "
+                            >Ainda não há registros!</span
+                        >
+                        <table
+                            class="transactionsTable"
+                            *ngIf="transactions.length > 0"
+                        >
+                            <tr class="tableHeadersContainer">
+                                <th>#</th>
+                                <th>Data</th>
+                                <th>Valor</th>
+                                <th>Categoria</th>
+                                <th>Destinatário</th>
+                                <th>Alterar</th>
+                                <th>Deletar</th>
+                            </tr>
+                            <tr
+                                class="tableRow"
+                                *ngFor="let transaction of transactions"
+                            >
+                                <th>{{ transaction.id }}</th>
+                                <td>{{ transaction.date }}</td>
+                                <td>{{ transaction.value?.toFixed(2) }}</td>
+                                <td>{{ transaction.category?.name }}</td>
+                                <td>{{ transaction.recipient?.name }}</td>
+                                <td>
+                                    <button
+                                        (click)="onClickUpdate(transaction)"
+                                        class="updateButton"
+                                    >
+                                        Alterar
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        (click)="onClickDelete(transaction)"
+                                        class="deleteButton"
+                                    >
+                                        Deletar
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
 
-                    <div
-                        class="newItemButtonContainer"
-                        *ngIf="isTableLoading == false"
-                    >
-                        <button (click)="onClickNew()">+ Nova transação</button>
-                        <button (click)="onClickLargeScale()">
-                            + Novas transações (em massa)
+                        <div
+                            class="newItemButtonContainer"
+                            *ngIf="isTableLoading == false"
+                        >
+                            <button (click)="onClickNew()">
+                                + Nova transação
+                            </button>
+                            <button (click)="onClickLargeScale()">
+                                + Novas transações (em massa)
+                            </button>
+                            <button
+                                (click)="onClickClearAll()"
+                                *ngIf="transactions.length > 0"
+                            >
+                                Limpar tudo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="entitiesContainer">
+                    <span>Outras entidades</span>
+                    <div class="entitiesItems">
+                        <button routerLink="/auth/categories">
+                            Categorias
+                        </button>
+                        <button routerLink="/auth/recipients">
+                            Destinatários
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="entitiesContainer">
-            <span>Outras entidades</span>
-            <button routerLink="/auth/categories">Categorias</button>
-            <button routerLink="/auth/recipients">Destinatários</button>
         </div>
     </div>
 </main>
@@ -125,5 +145,13 @@
             [recipients]="recipients"
             (formSubmitted)="receiveFormSubmitted($event)"
         ></app-delete-money-transaction>
+    </div>
+
+    <!--Limpar tudo-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'clearAll'">
+        <app-clear-all-money-transaction
+            class="container"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-clear-all-money-transaction>
     </div>
 </app-modal>

@@ -17,7 +17,7 @@
   <p align="center">
     Gerenciamento de transações financeiras
     <br />
-    <a href="https://github.com/github_username/repo_name">🌐 Ir para site do projeto</a>
+    <!--<a href="https://github.com/github_username/repo_name">🌐 Ir para site do projeto</a> -->
   </p>
 </div>
 

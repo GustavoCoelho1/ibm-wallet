@@ -1,0 +1,13 @@
+<div class="modalTitle font-heading">
+    <h2>Deletar</h2>
+</div>
+<div class="confirmationContainer">
+    <span>Tem certeza que deseja deletar a transação #{{ modalData.id }}?</span>
+    <div class="confirmationInfo">
+        <span><b>Nome: </b> {{ modalData.name }}</span>
+    </div>
+</div>
+
+<button [disabled]="isLoading" (click)="onClickSubmit()" class="modalSubmit">
+    Deletar
+</button>

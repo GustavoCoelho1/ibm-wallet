@@ -1,14 +1,14 @@
 <main>
     <div class="container">
-        <div class="transactionsContainer">
-            <div class="transactionsHeader">
+        <div class="categoriesContainer">
+            <div class="categoriesHeader">
                 <h1 class="font-heading">Categorias</h1>
                 <div></div>
             </div>
             <div class="tablesContainer">
-                <div class="lastTransactionsContainer">
-                    <span>Últimas transações</span>
-                    <div class="transactionsTableContainer">
+                <div class="lastCategoriesContainer">
+                    <span>Últimas categorias</span>
+                    <div class="categoriesTableContainer">
                         <span *ngIf="isTableLoading == true"
                             >Carregando...</span
                         >
@@ -20,7 +20,7 @@
                             >Ainda não há registros!</span
                         >
                         <table
-                            class="transactionsTable"
+                            class="categoriesTable"
                             *ngIf="categories.length > 0"
                         >
                             <tr class="tableHeadersContainer">
@@ -57,7 +57,7 @@
                             *ngIf="isTableLoading == false"
                         >
                             <button (click)="onClickNew()">
-                                + Nova transação
+                                + Nova categoria
                             </button>
                         </div>
                     </div>

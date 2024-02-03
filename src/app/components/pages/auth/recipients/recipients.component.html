@@ -1,1 +1,110 @@
-<p>recipients works!</p>
+<main>
+    <div class="container">
+        <div class="recipientsContainer">
+            <div class="recipientsHeader">
+                <h1 class="font-heading">Destinatários/Remetentes</h1>
+                <div></div>
+            </div>
+            <div class="tablesContainer">
+                <div class="lastCategoriesContainer">
+                    <span>Últimos dest./remet.</span>
+                    <div class="recipientsTableContainer">
+                        <span *ngIf="isTableLoading == true"
+                            >Carregando...</span
+                        >
+                        <span
+                            *ngIf="
+                                recipients.length == 0 &&
+                                isTableLoading == false
+                            "
+                            >Ainda não há registros!</span
+                        >
+                        <table
+                            class="recipientsTable"
+                            *ngIf="recipients.length > 0"
+                        >
+                            <tr class="tableHeadersContainer">
+                                <th>#</th>
+                                <th>Nome</th>
+                            </tr>
+                            <tr
+                                class="tableRow"
+                                *ngFor="let recipient of recipients"
+                            >
+                                <th>{{ recipient.id }}</th>
+                                <td>{{ recipient.name }}</td>
+                                <td>
+                                    <button
+                                        (click)="onClickUpdate(recipient)"
+                                        class="updateButton"
+                                    >
+                                        Alterar
+                                    </button>
+                                </td>
+                                <td>
+                                    <button
+                                        (click)="onClickDelete(recipient)"
+                                        class="deleteButton"
+                                    >
+                                        Deletar
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div
+                            class="newItemButtonContainer"
+                            *ngIf="isTableLoading == false"
+                        >
+                            <button (click)="onClickNew()">
+                                + Novo destinatário/remetente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="entitiesContainer">
+                    <span>Outras entidades</span>
+                    <div class="entitiesItems">
+                        <button routerLink="/auth/dashboard">Transações</button>
+                        <button routerLink="/auth/categories">
+                            Categorias
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<app-modal
+    (closeModal)="receiveCloseModal($event)"
+    modalId="actionModal"
+    *ngIf="currentModal != null"
+>
+    <!--Criar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'save'">
+        <app-save-recipient
+            class="container"
+            [modalData]="currentModal.data"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-save-recipient>
+    </div>
+
+    <!--Alterar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'update'">
+        <app-update-recipient
+            class="container"
+            [modalData]="currentModal.data"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-update-recipient>
+    </div>
+
+    <!--Deletar-->
+    <div class="modalContainer" *ngIf="currentModal.action == 'delete'">
+        <app-delete-recipient
+            class="container"
+            [modalData]="currentModal.data"
+            (formSubmitted)="receiveFormSubmitted($event)"
+        ></app-delete-recipient>
+    </div>
+</app-modal>

@@ -1,23 +1,22 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CategoryActionData, CategoryFormSubmitted } from '../../types';
+import { RecipientActionData, RecipientFormSubmitted } from '../../types';
 import { objectHasInvalid } from '../../../../../../lib/utils';
-import { CategoriesService } from '../../../../../../services/categories.service';
+import { RecipientsService } from '../../../../../../services/recipients.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-update-category',
-    templateUrl: './update-category.component.html',
+    selector: 'app-save-recipient',
+    templateUrl: './save-recipient.component.html',
     styleUrl: '../modal-content.scss',
 })
-export class UpdateCategoryComponent {
+export class SaveRecipientComponent {
     @Input()
-    modalData: CategoryActionData = {
-        id: 0,
+    modalData: RecipientActionData = {
         name: '',
     };
 
     @Output()
-    formSubmitted = new EventEmitter<CategoryFormSubmitted>();
+    formSubmitted = new EventEmitter<RecipientFormSubmitted>();
 
     isLoading = false;
 
@@ -32,12 +31,12 @@ export class UpdateCategoryComponent {
             return;
         }
 
-        const newCategory = inputsData as CategoryActionData;
+        const newRecipient = inputsData as RecipientActionData;
 
         this.isLoading = true;
 
-        await this.categoriesService
-            .saveCategory(newCategory)
+        await this.recipientsService
+            .saveRecipient(newRecipient)
             .catch((err) => {
                 console.log(err);
                 return false;
@@ -47,13 +46,13 @@ export class UpdateCategoryComponent {
                     this.formSubmitted.emit({
                         operation: 'save',
                         success: true,
-                        message: 'O registro foi atualizado com sucesso!',
+                        message: 'O registro foi salvo com sucesso!',
                     });
                 } else {
                     this.formSubmitted.emit({
                         operation: 'save',
                         success: false,
-                        message: 'Houve um erro ao atualizar o registro!',
+                        message: 'Houve um erro ao salvar o registro!',
                     });
                 }
             });
@@ -62,7 +61,7 @@ export class UpdateCategoryComponent {
     }
 
     constructor(
-        private categoriesService: CategoriesService,
+        private recipientsService: RecipientsService,
         private toastrService: ToastrService,
     ) {}
 }

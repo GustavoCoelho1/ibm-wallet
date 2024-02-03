@@ -1,23 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CategoryActionData, CategoryFormSubmitted } from '../../types';
-import { objectHasInvalid } from '../../../../../../lib/utils';
-import { CategoriesService } from '../../../../../../services/categories.service';
+import { RecipientsService } from '../../../../../../services/recipients.service';
 import { ToastrService } from 'ngx-toastr';
+import { RecipientActionData, RecipientFormSubmitted } from '../../types';
+import { objectHasInvalid } from '../../../../../../lib/utils';
 
 @Component({
-    selector: 'app-update-category',
-    templateUrl: './update-category.component.html',
+    selector: 'app-update-recipient',
+    templateUrl: './update-recipient.component.html',
     styleUrl: '../modal-content.scss',
 })
-export class UpdateCategoryComponent {
+export class UpdateRecipientComponent {
     @Input()
-    modalData: CategoryActionData = {
+    modalData: RecipientActionData = {
         id: 0,
         name: '',
     };
 
     @Output()
-    formSubmitted = new EventEmitter<CategoryFormSubmitted>();
+    formSubmitted = new EventEmitter<RecipientFormSubmitted>();
 
     isLoading = false;
 
@@ -32,12 +32,12 @@ export class UpdateCategoryComponent {
             return;
         }
 
-        const newCategory = inputsData as CategoryActionData;
+        const newRecipient = inputsData as RecipientActionData;
 
         this.isLoading = true;
 
-        await this.categoriesService
-            .saveCategory(newCategory)
+        await this.recipientsService
+            .saveRecipient(newRecipient)
             .catch((err) => {
                 console.log(err);
                 return false;
@@ -62,7 +62,7 @@ export class UpdateCategoryComponent {
     }
 
     constructor(
-        private categoriesService: CategoriesService,
+        private recipientsService: RecipientsService,
         private toastrService: ToastrService,
     ) {}
 }

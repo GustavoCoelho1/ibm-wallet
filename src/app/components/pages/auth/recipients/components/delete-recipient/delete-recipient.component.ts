@@ -1,26 +1,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CategoriesService } from '../../../../../../services/categories.service';
-import { ToastrService } from 'ngx-toastr';
-import {
-    CategoryActionData,
-    CategoryDeleteData,
-    CategoryFormSubmitted,
-} from '../../types';
+import { RecipientsService } from '../../../../../../services/recipients.service';
+import { RecipientDeleteData, RecipientFormSubmitted } from '../../types';
 
 @Component({
-    selector: 'app-delete-category',
-    templateUrl: './delete-category.component.html',
+    selector: 'app-delete-recipient',
+    templateUrl: './delete-recipient.component.html',
     styleUrl: '../modal-content.scss',
 })
-export class DeleteCategoryComponent {
+export class DeleteRecipientComponent {
     @Input()
-    modalData: CategoryDeleteData = {
+    modalData: RecipientDeleteData = {
         id: 0,
         name: '',
     };
 
     @Output()
-    formSubmitted = new EventEmitter<CategoryFormSubmitted>();
+    formSubmitted = new EventEmitter<RecipientFormSubmitted>();
 
     isLoading = false;
 
@@ -29,8 +24,8 @@ export class DeleteCategoryComponent {
 
         this.isLoading = true;
 
-        await this.categoriesService
-            .deleteCategory(deleteId)
+        await this.recipientsService
+            .deleteRecipient(deleteId)
             .catch((err) => {
                 console.log(err);
                 return false;
@@ -54,5 +49,5 @@ export class DeleteCategoryComponent {
         this.isLoading = false;
     }
 
-    constructor(private categoriesService: CategoriesService) {}
+    constructor(private recipientsService: RecipientsService) {}
 }

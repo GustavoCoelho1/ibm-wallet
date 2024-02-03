@@ -10,11 +10,7 @@ import { CategoryActionData, CategoryFormSubmitted } from './types';
     styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
-    categories = [
-        { id: 1, name: 'Alimentação' },
-        { id: 1, name: 'Alimentação' },
-        { id: 1, name: 'Alimentação' },
-    ] as Category[];
+    categories = [] as Category[];
 
     constructor(
         private categoriesService: CategoriesService,
@@ -55,7 +51,7 @@ export class CategoriesComponent {
             const categories = res as Category[];
             this.categories = categories;
 
-            console.log(this.categories);
+            this.isTableLoading = false;
         });
     }
 

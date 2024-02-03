@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-save-category',
     templateUrl: './save-category.component.html',
-    styleUrl: './save-category.component.scss',
+    styleUrl: '../modal-content.scss',
 })
 export class SaveCategoryComponent {
     @Input()

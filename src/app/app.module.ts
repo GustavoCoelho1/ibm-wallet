@@ -25,6 +25,9 @@ import { DeleteCategoryComponent } from './components/pages/auth/categories/comp
 import { ClearAllMoneyTransactionComponent } from './components/pages/auth/dashboard/components/clear-all-money-transaction/clear-all-money-transaction.component';
 import { CategoriesComponent } from './components/pages/auth/categories/categories.component';
 import { RecipientsComponent } from './components/pages/auth/recipients/recipients.component';
+import { SaveRecipientComponent } from './components/pages/auth/recipients/components/save-recipient/save-recipient.component';
+import { UpdateRecipientComponent } from './components/pages/auth/recipients/components/update-recipient/update-recipient.component';
+import { DeleteRecipientComponent } from './components/pages/auth/recipients/components/delete-recipient/delete-recipient.component';
 
 @NgModule({
     declarations: [
@@ -45,6 +48,9 @@ import { RecipientsComponent } from './components/pages/auth/recipients/recipien
         ClearAllMoneyTransactionComponent,
         CategoriesComponent,
         RecipientsComponent,
+        SaveRecipientComponent,
+        UpdateRecipientComponent,
+        DeleteRecipientComponent,
     ],
     imports: [
         CommonModule,

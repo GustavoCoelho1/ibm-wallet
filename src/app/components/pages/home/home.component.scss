@@ -7,24 +7,26 @@ main {
     background-color: #132a33;
     color: white;
     gap: 2rem;
+    padding: 0 10rem;
 }
 
 .mainContainer {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: fit-content;
     gap: 2rem;
-    padding: 0 2rem;
+    padding-left: 2rem;
 }
 
 .bigImageContainer {
-    width: 50%;
+    width: 700px;
     position: relative;
-    height: 100vh;
     overflow: hidden;
     display: flex;
+    height: 500px;
     align-items: center;
     justify-content: center;
+    border-radius: 2rem;
 }
 
 .bigImageContainer img {

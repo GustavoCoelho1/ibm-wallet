@@ -17,7 +17,7 @@
   <p align="center">
     Gerenciamento de transações financeiras
     <br />
-    <a href="https://ibm-wallet.vercel.app/">🌐 Ir para site do projeto</a>
+    <a href="https://ibm-wallet.vercel.app/" target="_blank">🌐 Ir para site do projeto</a>
   </p>
 </div>
 

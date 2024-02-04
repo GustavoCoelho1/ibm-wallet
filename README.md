@@ -53,7 +53,7 @@
 
 ![ibmWalletPrints](https://github.com/GustavoCoelho1/ibm-wallet/assets/92497249/5fec03d6-a55c-4c6a-9be5-5dc183ed5fcf)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+<!--Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`-->
 
 <p align="right">(<a href="#readme-top">Voltar ao topo</a>)</p>
 

@@ -1,3 +1,3 @@
 export const environment = {
-    apiUrl: 'https://ibm-waller-api.onrender.com',
+    apiUrl: 'https://ibm-wallet-api-production.up.railway.app',
 };
